@@ -108,10 +108,15 @@ const projects = [
 const projectList = document.getElementById("project-list");
 
 projects.forEach((project) => {
-  const listItem = document.createElement("li");
-  const link = document.createElement("a");
-  link.href = `./${project}/index.html`;
-  link.textContent = project;
-  listItem.appendChild(link);
-  projectList.appendChild(listItem);
+  const projectItem = document.createElement("div");
+  projectItem.classList.add("project-item");
+
+  const projectName = project.split(" ").join("-");
+  projectItem.innerHTML = `
+      <a href="./${projectName}/index.html">
+          <img src="./${projectName}/thumbnail.jpg" alt="${project}">
+          <h3>${project}</h3>
+      </a>
+  `;
+  projectList.appendChild(projectItem);
 });
