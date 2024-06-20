@@ -1,0 +1,260 @@
+$toggle-view-time: 12s;
+$surface-move-time: 6s;
+
+html {
+	height: 100vh;
+}
+
+body {
+	height: 100vh;
+	margin: 0;
+	overflow: hidden;
+}
+
+.scenary {
+	height: 100vh;
+	position: relative;
+}
+
+.horizon {
+	height: 50vh;
+	left: 0;
+	position: absolute;
+	right: 0;
+	top: 0;
+	overflow: hidden;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+
+	&::before {
+		background: linear-gradient(
+			to bottom,
+			#26007d 0%,
+			#3503a8 50%,
+			#b30699 74%,
+			#ff179a 84%,
+			#ffff05 100%
+		);
+		animation: day-view $toggle-view-time linear infinite alternate;
+	}
+
+	&::after {
+		background: linear-gradient(
+			to bottom,
+			#040508 0%,
+			#243048 50%,
+			#0d4371 74%,
+			#0264a1 84%,
+			#0468a6 100%
+		);
+		animation: night-view $toggle-view-time linear infinite alternate;
+	}
+}
+
+.sun,
+.moon {
+	z-index: 1;
+	width: 25vw;
+	height: 25vw;
+	border-radius: 50%;
+	left: 50%;
+	position: absolute;
+	transform: translate(-50%, 40%);
+}
+
+.sun {
+	bottom: 5vh;
+	background-image: linear-gradient(to bottom, #ffff05 0%, #ff4700 50%);
+	box-shadow: 0 0 70px 30px rgba(#ff4700, 0.5);
+	animation: sun-move $toggle-view-time linear infinite alternate;
+}
+
+.moon {
+	bottom: -40vh;
+	background: linear-gradient(to bottom, #f4f3bd 0%, #edf0c3 50%);
+	box-shadow: 0 0 70px 30px rgba(#ffffff, 0.5);
+	animation: moon-move $toggle-view-time linear infinite alternate;
+}
+
+.surface {
+	bottom: 0;
+	height: 50vh;
+	left: 0;
+	perspective: 60vh;
+	position: absolute;
+	right: 0;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+
+	&::before {
+		background: linear-gradient(
+				to bottom,
+				rgba(#b30699, 0.34) 0%,
+				transparent 100%
+			),
+			linear-gradient(to right, #1f0540 0%, #570257 100%);
+		animation: day-view $toggle-view-time linear infinite alternate;
+	}
+
+	&::after {
+		background: linear-gradient(
+				to bottom,
+				rgba(#0d4371, 0.34) 0%,
+				transparent 100%
+			),
+			linear-gradient(to right, #243048 0%, #080707 100%);
+		animation: night-view $toggle-view-time linear infinite alternate;
+	}
+}
+
+.surface-overlay {
+	position: absolute;
+	inset: 0;
+
+	z-index: 1;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+	}
+
+	&::before {
+		background: linear-gradient(
+			to bottom,
+			#05f3fe 0%,
+			#05f3fe 2%,
+			transparent 6%
+		);
+		animation: day-view $toggle-view-time linear infinite alternate;
+	}
+
+	&::after {
+		background: linear-gradient(
+			to bottom,
+			#d6d2d2 0%,
+			#d6d2d2 2%,
+			transparent 6%
+		);
+		animation: night-view $toggle-view-time linear infinite alternate;
+	}
+}
+
+.surface-lines {
+	position: absolute;
+	inset: 0;
+	transform-origin: 50% 0;
+	transform: rotateX(66deg);
+	z-index: 2;
+
+	&::before,
+	&::after {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: 1;
+		background-size: 2.1vw 2.1vw;
+		height: 100vh;
+	}
+
+	&::after {
+		background-image: linear-gradient(to bottom, transparent, transparent 2vw, #05f3fe 2vw, #05f3fe 2.1vw), linear-gradient(to right, transparent, transparent 2vw, #05f3fe 2vw, #05f3fe 2.1vw);
+		animation: surface-move $surface-move-time linear infinite, day-view $toggle-view-time linear infinite alternate;
+	}
+
+	&::before {
+		background-image: linear-gradient(to bottom, transparent, transparent 2vw, #d6d2d2 2vw, #d6d2d2 2.1vw), linear-gradient(to right, transparent, transparent 2vw, #d6d2d2 2vw, #d6d2d2 2.1vw);
+		animation: surface-move $surface-move-time linear infinite, night-view $toggle-view-time linear infinite alternate;
+	}
+}
+
+@keyframes day-view {
+	0%,
+	30% {
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 1;
+	}
+
+	70%,
+	100% {
+		opacity: 0;
+	}
+}
+
+@keyframes night-view {
+	0%,
+	30% {
+		opacity: 0;
+	}
+
+	50% {
+		opacity: 0;
+	}
+
+	70%,
+	100% {
+		opacity: 1;
+	}
+}
+
+@keyframes sun-move {
+	0%,
+	30% {
+		bottom: 2vw;
+		opacity: 1;
+	}
+
+	50% {
+		opacity: 1;
+		bottom: -40vw;
+	}
+
+	70%,
+	100% {
+		opacity: 0;
+		bottom: -40vw;
+	}
+}
+
+@keyframes moon-move {
+	0%,
+	30% {
+		opacity: 0;
+		bottom: -40vw;
+	}
+
+	50% {
+		opacity: 0;
+		bottom: -40vw;
+	}
+
+	70%,
+	100% {
+		bottom: 2vw;
+		opacity: 1;
+	}
+}
+
+@keyframes surface-move {
+	0% {
+		background-position: 0 0;
+	}
+
+	100% {
+		background-position: 0 100%;
+	}
+}
